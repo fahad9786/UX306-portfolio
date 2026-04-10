@@ -246,7 +246,97 @@ footer{background:var(--dark);padding:80px 60px;}
   .vr-callout{flex-direction:column;gap:16px;padding:28px 24px;}
   .pdf-section{padding:72px 24px;}
   .pdf-frame{height:500px;}
+  .hero::after{font-size:60vw;}
 }
+
+/* ══ UI Polish ════════════════════════════════════════════ */
+
+/* Text selection */
+::selection{background:rgba(192,57,43,.13);color:var(--dark);}
+
+/* Hero background watermark */
+.hero::after{
+  content:'Shift';
+  position:absolute;bottom:-60px;right:-10px;
+  font-family:'Playfair Display',serif;
+  font-size:38vw;font-weight:900;font-style:italic;
+  color:rgba(192,57,43,.032);
+  line-height:1;pointer-events:none;z-index:0;user-select:none;
+}
+.hero-tag,.hero-title,.hero-desc,.hero-meta,.hero-scroll{position:relative;z-index:1;}
+
+/* Stat cards — red top accent */
+.stat{border-top:2px solid var(--red);}
+
+/* Scene items — always-visible number badge */
+.scene-grid{counter-reset:scene;}
+.scene-item{counter-increment:scene;}
+.scene-item::before{
+  content:'0' counter(scene);
+  position:absolute;top:14px;left:14px;
+  font-family:'DM Mono',monospace;font-size:10px;
+  color:rgba(250,247,242,.85);letter-spacing:.15em;
+  background:rgba(26,10,8,.38);
+  padding:3px 9px;
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  z-index:3;
+}
+
+/* Quiz cards — ghost letter watermark */
+.quiz-cards{counter-reset:quiz;}
+.quiz-card{counter-increment:quiz;overflow:hidden;}
+.quiz-card::after{
+  content:counter(quiz,upper-alpha);
+  position:absolute;bottom:-20px;right:10px;
+  font-family:'Playfair Display',serif;
+  font-size:130px;font-weight:900;line-height:1;
+  color:rgba(26,26,26,.04);
+  pointer-events:none;user-select:none;
+}
+
+/* Buttons — animated arrow */
+.wwc-cta-btn::after,.footer-link::after{
+  content:'\2192';
+  display:inline-block;
+  margin-left:10px;
+  transition:transform .2s ease;
+}
+.wwc-cta-btn:hover::after,.footer-link:hover::after{transform:translateX(6px);}
+
+/* Nav — shadow on scroll */
+nav.scrolled{box-shadow:0 2px 28px rgba(26,26,26,.09);}
+
+/* About quote — large decorative opening mark */
+.about-quote{position:relative;}
+.about-quote::before{
+  content:'\201C';
+  position:absolute;
+  top:-24px;left:20px;
+  font-family:'Playfair Display',serif;
+  font-size:80px;font-weight:900;
+  color:rgba(192,57,43,.1);
+  line-height:1;pointer-events:none;user-select:none;
+}
+
+/* Interlude — slightly larger quote on wide screens */
+@media(min-width:900px){
+  .interlude-quote{font-size:clamp(20px,2.8vw,34px);}
+}
+
+/* Scene images — very subtle base vignette for readability */
+.scene-item img{box-shadow:inset 0 0 0 1px rgba(0,0,0,.08);}
+
+/* WWC cards — lift on hover */
+.wwc-card:hover{box-shadow:0 4px 20px rgba(26,26,26,.07);}
+
+/* PDF frame — red top accent */
+.pdf-frame{border-top:2px solid var(--red);}
+
+/* Team initials — softer radius */
+.team-initial{border-radius:2px;}
+
+/* Process ghost numbers — slightly warmer */
+.process-num{color:rgba(192,57,43,.07);}
 </style>
 </head>
 <body>
@@ -798,6 +888,11 @@ function closeModal() {
 }
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/* ── Nav scroll shadow ──────────────────── */
+window.addEventListener('scroll', () => {
+  document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
 </script>
 </body>
 </html>

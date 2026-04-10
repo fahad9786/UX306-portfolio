@@ -249,6 +249,14 @@ footer{background:var(--dark);padding:80px 60px;}
   .hero::after{font-size:60vw;}
 }
 
+/* ── Scroll progress bar ─────────────── */
+#scrollProgress{position:fixed;top:0;left:0;height:2px;background:var(--red);z-index:9999;width:0%;pointer-events:none;transition:width .08s linear;}
+
+/* ── Back to top ─────────────────────── */
+#backTop{position:fixed;bottom:36px;right:36px;width:44px;height:44px;background:var(--dark);color:var(--white);border:1px solid rgba(255,255,255,.12);font-size:17px;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);transition:opacity .3s ease,transform .3s ease,background .2s;z-index:300;cursor:none;}
+#backTop.visible{opacity:1;transform:translateY(0);}
+#backTop:hover{background:var(--red);}
+
 /* ══ UI Polish ════════════════════════════════════════════ */
 
 /* Text selection */
@@ -341,6 +349,8 @@ nav.scrolled{box-shadow:0 2px 28px rgba(26,26,26,.09);}
 </head>
 <body>
 
+<div id="scrollProgress"></div>
+<button id="backTop" aria-label="Back to top">&#8593;</button>
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
@@ -735,7 +745,7 @@ nav.scrolled{box-shadow:0 2px 28px rgba(26,26,26,.09);}
   <span class="section-tag">09 Concept Design</span>
   <div class="two-col" style="margin-bottom:0;">
     <h2 class="section-title reveal">One page.<br><em>The whole idea.</em></h2>
-    <p class="section-body reveal">The one-page concept document that captured After the Shift before a single frame was built in ShapesXR. The narrative premise, the spatial logic, the WWC program connections, and the emotional arc are all here.</p>
+    <p class="section-body reveal">The one-page concept document produced after the experience was built, distilling everything into a single artifact. The narrative premise, the spatial logic, the WWC program connections, and the emotional arc condensed into one page.</p>
   </div>
   <iframe class="pdf-frame reveal" src="onepage.pdf" title="After the Shift One Page Concept Design"></iframe>
   <a class="pdf-download reveal" href="onepage.pdf" target="_blank">Open PDF in new tab</a>
@@ -889,10 +899,17 @@ function closeModal() {
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-/* ── Nav scroll shadow ──────────────────── */
+/* ── Nav scroll shadow + progress + back to top ─── */
+const progressBar = document.getElementById('scrollProgress');
+const backTopBtn  = document.getElementById('backTop');
 window.addEventListener('scroll', () => {
-  document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 60);
+  const scrolled = window.scrollY;
+  const total    = document.body.scrollHeight - window.innerHeight;
+  progressBar.style.width = (scrolled / total * 100) + '%';
+  document.querySelector('nav').classList.toggle('scrolled', scrolled > 60);
+  backTopBtn.classList.toggle('visible', scrolled > 600);
 }, { passive: true });
+backTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 </script>
 </body>
 </html>

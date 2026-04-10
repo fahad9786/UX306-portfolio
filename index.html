@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>After the Shift — Group 7</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#C0392B;
+  --red-dark:#96261F;
+  --red-pale:#F7EDED;
+  --cream:#FAF7F2;
+  --cream-mid:#F2EDE4;
+  --cream-dark:#E8E0D4;
+  --dark:#1A1A1A;
+  --dark-mid:#333333;
+  --grey:#6B6360;
+  --grey-light:#4A4644;
+  --white:#FFFFFF;
+  --border:rgba(26,26,26,0.09);
+  --border-strong:rgba(26,26,26,0.18);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--cream);color:var(--dark);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;cursor:none;}
+
+/* ── Cursor ──────────────────────────── */
+.cursor{width:8px;height:8px;background:var(--red);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transition:transform 0.15s ease;}
+.cursor-ring{width:32px;height:32px;border:1px solid rgba(192,57,43,0.45);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transition:all 0.3s ease;}
+
+/* ── Nav ─────────────────────────────── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:24px 60px;display:flex;justify-content:space-between;align-items:center;background:rgba(250,247,242,0.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:'DM Mono',monospace;font-size:12px;color:var(--grey);letter-spacing:.15em;text-transform:uppercase;}
+.nav-links{display:flex;gap:36px;list-style:none;}
+.nav-links a{font-family:'DM Mono',monospace;font-size:11px;color:var(--grey);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;transition:color .25s;}
+.nav-links a:hover{color:var(--red);}
+
+/* ── Hero ────────────────────────────── */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:140px 60px 100px;position:relative;overflow:hidden;background:var(--cream);}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 55% 50% at 85% 15%,rgba(192,57,43,.06) 0%,transparent 70%),radial-gradient(ellipse 35% 35% at 5% 85%,rgba(192,57,43,.04) 0%,transparent 70%);}
+.hero-tag{font-family:'DM Mono',monospace;font-size:11px;color:var(--red);letter-spacing:.2em;text-transform:uppercase;margin-bottom:32px;opacity:0;animation:fadeUp .8s ease .2s forwards;}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(64px,9vw,130px);font-weight:900;line-height:.9;margin-bottom:48px;opacity:0;animation:fadeUp .8s ease .4s forwards;color:var(--dark);}
+.hero-title em{font-style:italic;color:var(--red);}
+.hero-desc{max-width:560px;font-size:17px;line-height:1.8;color:var(--grey-light);margin-bottom:60px;opacity:0;animation:fadeUp .8s ease .6s forwards;}
+.hero-meta{display:flex;gap:48px;flex-wrap:wrap;opacity:0;animation:fadeUp .8s ease .8s forwards;}
+.hero-meta-item{display:flex;flex-direction:column;gap:6px;}
+.hero-meta-label{font-family:'DM Mono',monospace;font-size:10px;color:var(--grey);letter-spacing:.15em;text-transform:uppercase;}
+.hero-meta-value{font-size:14px;color:var(--dark);font-weight:500;}
+.hero-scroll{position:absolute;bottom:48px;left:60px;display:flex;align-items:center;gap:16px;opacity:0;animation:fadeUp .8s ease 1.2s forwards;}
+.hero-scroll-line{width:48px;height:1px;background:var(--grey);}
+.hero-scroll-text{font-family:'DM Mono',monospace;font-size:10px;color:var(--grey);letter-spacing:.15em;text-transform:uppercase;}
+
+/* ── Shared ──────────────────────────── */
+section{padding:120px 60px;position:relative;}
+.section-tag{font-family:'DM Mono',monospace;font-size:11px;color:var(--red);letter-spacing:.2em;text-transform:uppercase;margin-bottom:20px;display:block;}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(36px,5vw,64px);font-weight:700;line-height:1.1;margin-bottom:24px;color:var(--dark);}
+.section-title em{font-style:italic;color:var(--red);}
+.section-body{font-size:16px;line-height:1.8;color:var(--grey-light);max-width:640px;}
+.divider{width:100%;height:1px;background:var(--border);}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end;margin-bottom:56px;}
+
+/* ── About ───────────────────────────── */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-top:64px;align-items:start;}
+.about-quote{font-family:'Playfair Display',serif;font-size:clamp(19px,2.2vw,26px);font-style:italic;line-height:1.55;color:var(--dark);border-left:2px solid var(--red);padding-left:28px;margin-bottom:40px;}
+.about-stats{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:48px;}
+.stat{padding:28px;border:1px solid var(--border);background:var(--white);}
+.stat-num{font-family:'Playfair Display',serif;font-size:48px;font-weight:700;color:var(--red);line-height:1;margin-bottom:8px;}
+.stat-label{font-size:13px;color:var(--grey);line-height:1.55;}
+
+/* ── Story ───────────────────────────── */
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:64px;}
+.story-card{background:var(--white);padding:48px;transition:background .25s;}
+.story-card:hover{background:var(--cream);}
+.story-card-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--red);letter-spacing:.15em;margin-bottom:24px;display:block;}
+.story-card-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:16px;line-height:1.3;color:var(--dark);}
+.story-card-body{font-size:15px;line-height:1.8;color:var(--grey-light);}
+.story-card-tag{display:inline-block;margin-top:24px;font-family:'DM Mono',monospace;font-size:10px;color:var(--red);letter-spacing:.12em;text-transform:uppercase;border-bottom:1px solid var(--red);padding-bottom:2px;}
+
+/* ── Video ───────────────────────────── */
+.video-wrap{position:relative;width:100%;aspect-ratio:16/9;background:var(--cream-dark);overflow:hidden;border:1px solid var(--border);}
+.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none;}
+
+/* ── Scenes ──────────────────────────── */
+.scene-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+.scene-item{position:relative;overflow:hidden;aspect-ratio:16/10;background:var(--cream-dark);cursor:pointer;}
+.scene-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;filter:saturate(.85);}
+.scene-item:hover img{transform:scale(1.04);filter:saturate(1);}
+.scene-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,10,8,.88) 0%,transparent 55%);opacity:0;transition:opacity .35s;display:flex;flex-direction:column;justify-content:flex-end;padding:24px;}
+.scene-item:hover .scene-overlay{opacity:1;}
+.scene-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--red);letter-spacing:.15em;margin-bottom:6px;display:block;}
+.scene-caption{font-size:14px;color:#FAF7F2;line-height:1.45;font-weight:500;}
+.scene-sub{font-size:12px;color:rgba(250,247,242,0.65);margin-top:4px;}
+.scene-open-hint{font-family:'DM Mono',monospace;font-size:10px;color:rgba(192,57,43,.9);letter-spacing:.1em;margin-top:8px;text-transform:uppercase;}
+
+/* ── Prototype ───────────────────────── */
+.prototype-frame{width:100%;height:680px;border:none;background:var(--cream-mid);}
+.prototype-note{margin-top:16px;font-family:'DM Mono',monospace;font-size:11px;color:var(--grey);letter-spacing:.1em;}
+.embed-pair{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:56px;}
+.embed-block{display:flex;flex-direction:column;}
+.embed-label{font-family:'DM Mono',monospace;font-size:10px;color:var(--grey);letter-spacing:.15em;text-transform:uppercase;margin-bottom:12px;}
+.embed-block iframe{width:100%;height:480px;border:none;background:var(--cream-mid);}
+
+/* ── WWC Cards ───────────────────────── */
+.wwc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:64px;}
+.wwc-card{background:var(--white);padding:48px 40px;border-top:2px solid var(--red);transition:background .25s;}
+.wwc-card:hover{background:var(--cream);}
+.wwc-card-icon{font-size:26px;margin-bottom:24px;}
+.wwc-card-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:14px;line-height:1.3;color:var(--dark);}
+.wwc-card-body{font-size:14px;line-height:1.8;color:var(--grey-light);}
+
+/* ── Process ─────────────────────────── */
+.process-list{margin-top:64px;display:flex;flex-direction:column;}
+.process-item{display:grid;grid-template-columns:80px 1fr 1fr;gap:48px;padding:48px 0;border-bottom:1px solid var(--border);align-items:start;}
+.process-num{font-family:'Playfair Display',serif;font-size:48px;font-weight:700;color:rgba(26,26,26,.08);line-height:1;}
+.process-label{font-family:'DM Mono',monospace;font-size:10px;color:var(--red);letter-spacing:.15em;text-transform:uppercase;margin-bottom:14px;display:block;}
+.process-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;line-height:1.3;margin-bottom:8px;color:var(--dark);}
+.process-body{font-size:15px;line-height:1.8;color:var(--grey-light);}
+
+/* ── Team ────────────────────────────── */
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:64px;}
+.team-card{background:var(--white);padding:40px 32px;transition:background .25s;}
+.team-card:hover{background:var(--cream);}
+.team-initial{width:56px;height:56px;background:var(--red);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--white);margin-bottom:24px;}
+.team-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:6px;color:var(--dark);}
+.team-role{font-family:'DM Mono',monospace;font-size:10px;color:var(--grey);letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px;}
+.team-desc{font-size:13px;line-height:1.7;color:var(--grey-light);}
+
+/* ── Quiz Panel ──────────────────────── */
+.quiz-section{padding:100px 60px;background:var(--cream-mid);}
+.quiz-header{margin-bottom:64px;}
+.quiz-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+.quiz-card{background:var(--white);padding:48px 40px;border-top:3px solid var(--border-strong);display:flex;flex-direction:column;gap:20px;}
+.quiz-card.first-step{border-top:3px solid var(--red);}
+.quiz-card-letter{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--grey);}
+.quiz-card.first-step .quiz-card-letter{color:var(--red);}
+.quiz-badge{display:inline-flex;align-items:center;gap:6px;background:var(--red);color:#fff;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:5px 12px;width:fit-content;}
+.quiz-card-response{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;line-height:1.35;color:var(--dark);}
+.quiz-card-explanation{font-size:14px;line-height:1.75;color:var(--grey-light);}
+.quiz-note{margin-top:40px;padding:28px 32px;border-left:2px solid var(--red);background:var(--white);font-size:15px;line-height:1.75;color:var(--grey-light);font-style:italic;}
+
+/* ── Scene Modal ─────────────────────── */
+.modal-backdrop{position:fixed;inset:0;background:rgba(26,10,8,.55);z-index:500;opacity:0;pointer-events:none;transition:opacity .35s;}
+.modal-backdrop.active{opacity:1;pointer-events:all;}
+.modal-panel{position:fixed;top:0;right:0;bottom:0;width:500px;max-width:100vw;background:var(--cream);z-index:501;transform:translateX(100%);transition:transform .4s cubic-bezier(.22,.6,.36,1);overflow-y:auto;display:flex;flex-direction:column;}
+.modal-panel.active{transform:translateX(0);}
+.modal-img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;filter:saturate(.9);}
+.modal-body{padding:40px 40px 60px;flex:1;}
+.modal-scene-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--red);letter-spacing:.18em;text-transform:uppercase;margin-bottom:12px;display:block;}
+.modal-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;line-height:1.2;color:var(--dark);margin-bottom:20px;}
+.modal-desc{font-size:15px;line-height:1.8;color:var(--grey-light);margin-bottom:28px;}
+.modal-program{display:inline-flex;align-items:center;gap:8px;background:var(--red-pale);border:1px solid rgba(192,57,43,.2);padding:9px 16px;margin-bottom:28px;}
+.modal-program-label{font-family:'DM Mono',monospace;font-size:9px;color:var(--grey);letter-spacing:.14em;text-transform:uppercase;}
+.modal-program-name{font-family:'DM Mono',monospace;font-size:11px;color:var(--red);letter-spacing:.1em;font-weight:500;}
+.modal-quote{font-family:'Playfair Display',serif;font-size:17px;font-style:italic;line-height:1.6;color:var(--dark);border-left:2px solid var(--red);padding-left:20px;margin-top:4px;}
+.modal-close{position:sticky;top:0;background:var(--cream);border:none;border-bottom:1px solid var(--border);width:100%;padding:16px 40px;display:flex;align-items:center;justify-content:space-between;cursor:none;font-family:'DM Mono',monospace;font-size:10px;color:var(--grey);letter-spacing:.15em;text-transform:uppercase;z-index:10;transition:color .2s;}
+.modal-close:hover{color:var(--red);}
+.modal-close-x{font-size:18px;font-family:'DM Sans',sans-serif;font-weight:300;color:var(--grey);}
+
+/* ── Footer ──────────────────────────── */
+footer{background:var(--dark);padding:80px 60px;}
+.footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end;}
+.footer-title{font-family:'Playfair Display',serif;font-size:clamp(32px,4vw,54px);font-weight:900;line-height:1;margin-bottom:24px;color:var(--white);}
+.footer-title em{font-style:italic;color:var(--red);}
+.footer-body{font-size:15px;line-height:1.8;color:rgba(255,255,255,.45);margin-bottom:40px;}
+.footer-link{display:inline-flex;align-items:center;gap:12px;background:var(--red);color:var(--white);text-decoration:none;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:16px 28px;transition:background .25s;}
+.footer-link:hover{background:var(--red-dark);}
+.footer-meta{display:flex;flex-direction:column;gap:24px;align-items:flex-end;}
+.footer-code{font-family:'DM Mono',monospace;font-size:11px;color:rgba(255,255,255,.35);letter-spacing:.12em;}
+.footer-bottom{margin-top:64px;padding-top:28px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center;}
+.footer-copy{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,.3);letter-spacing:.1em;}
+
+/* ── Animations ──────────────────────── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .75s ease,transform .75s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ── Responsive ──────────────────────── */
+@media(max-width:900px){
+  nav{padding:20px 24px;}
+  .nav-links{display:none;}
+  section{padding:80px 24px;}
+  .hero{padding:110px 24px 64px;}
+  .about-grid,.story-grid,.two-col,.embed-pair{grid-template-columns:1fr;gap:32px;}
+  .scene-grid{grid-template-columns:1fr 1fr;}
+  .wwc-grid,.quiz-cards{grid-template-columns:1fr;}
+  .team-grid{grid-template-columns:1fr 1fr;}
+  .process-item{grid-template-columns:1fr;gap:12px;}
+  .footer-grid{grid-template-columns:1fr;gap:40px;}
+  .footer-meta{align-items:flex-start;}
+  .prototype-frame{height:360px;}
+  .modal-panel{width:100vw;}
+  .quiz-section{padding:80px 24px;}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Modal Backdrop -->
+<div class="modal-backdrop" id="modalBackdrop" onclick="closeModal()"></div>
+
+<!-- Scene Modal Panel -->
+<div class="modal-panel" id="modalPanel">
+  <button class="modal-close" onclick="closeModal()">
+    <span>Close scene</span>
+    <span class="modal-close-x">&times;</span>
+  </button>
+  <img class="modal-img" id="modalImg" src="" alt="">
+  <div class="modal-body">
+    <span class="modal-scene-num" id="modalSceneNum"></span>
+    <h2 class="modal-title" id="modalTitle"></h2>
+    <p class="modal-desc" id="modalDesc"></p>
+    <div class="modal-program">
+      <span class="modal-program-label">WWC Program</span>
+      <span class="modal-program-name" id="modalProgram"></span>
+    </div>
+    <blockquote class="modal-quote" id="modalQuote"></blockquote>
+  </div>
+</div>
+
+<!-- Nav -->
+<nav>
+  <span class="nav-logo">After the Shift — Group 7</span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#story">Iteration</a></li>
+    <li><a href="#video">Video</a></li>
+    <li><a href="#scenes">Scenes</a></li>
+    <li><a href="#prototype">Prototype</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#team">Team</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <p class="hero-tag">UX306 — Wounded Warriors Canada — 2026</p>
+  <h1 class="hero-title">After<br><em>the Shift</em></h1>
+  <p class="hero-desc">A seated VR experience that puts you in the home of a firefighter's partner and asks you to feel what it means to love someone who carries the job home with them.</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item"><span class="hero-meta-label">Platform</span><span class="hero-meta-value">Meta Quest 3</span></div>
+    <div class="hero-meta-item"><span class="hero-meta-label">Tool</span><span class="hero-meta-value">ShapesXR</span></div>
+    <div class="hero-meta-item"><span class="hero-meta-label">Client</span><span class="hero-meta-value">Wounded Warriors Canada</span></div>
+    <div class="hero-meta-item"><span class="hero-meta-label">Duration</span><span class="hero-meta-value">5 to 7 Minutes</span></div>
+  </div>
+  <div class="hero-scroll"><div class="hero-scroll-line"></div><span class="hero-scroll-text">Scroll to explore</span></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- About -->
+<section id="about" style="background:var(--cream);">
+  <span class="section-tag">01 — The Experience</span>
+  <div class="about-grid">
+    <div>
+      <h2 class="section-title reveal">You are <em>Sarah.</em></h2>
+      <div class="about-quote reveal">"That's not distance chosen deliberately. That's depletion."</div>
+      <p class="section-body reveal">The user embodies Sarah, a firefighter's partner, watching a Tuesday evening unfold after James comes home from a difficult shift. Through voice, objects, and the silence between them, the experience communicates what Operational Stress Injuries look like inside a home and connects families to Wounded Warriors Canada's support programs.</p>
+      <p class="section-body reveal" style="margin-top:20px;">We chose not to show the job. We show what it leaves behind.</p>
+    </div>
+    <div>
+      <div class="about-stats">
+        <div class="stat reveal"><div class="stat-num">1 in 4</div><div class="stat-label">First responders in Canada will experience an Operational Stress Injury</div></div>
+        <div class="stat reveal"><div class="stat-num">5+</div><div class="stat-label">Participants tested the experience including Trauma Exposed Professionals</div></div>
+        <div class="stat reveal"><div class="stat-num">6</div><div class="stat-label">Frames built in ShapesXR, all in one home environment</div></div>
+        <div class="stat reveal"><div class="stat-num">3</div><div class="stat-label">WWC programs integrated throughout: COPE, Spousal Resiliency, Surviving Family</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Story / Iteration -->
+<section id="story" style="background:var(--cream-mid);">
+  <span class="section-tag">02 — How We Got Here</span>
+  <div class="two-col" style="margin-bottom:0;">
+    <h2 class="section-title reveal">A near-complete <em>rebuild.</em></h2>
+    <p class="section-body reveal">V1 had eight scenes across multiple locations. Users could not follow it. They focused on completing tasks rather than feeling anything. We did not patch it. We rebuilt it from the ground up.</p>
+  </div>
+  <div class="story-grid reveal">
+    <div class="story-card">
+      <span class="story-card-num">V1 — Problem</span>
+      <h3 class="story-card-title">Eight scenes. Multiple locations. No narrative thread.</h3>
+      <p class="story-card-body">Users were completing tasks to advance rather than engaging with the story. The fire station scene was not recognizable. The flashback felt like showing trauma rather than understanding it. The cup metaphor added complexity without clarity.</p>
+      <span class="story-card-tag">Before</span>
+    </div>
+    <div class="story-card">
+      <span class="story-card-num">V2 — Solution</span>
+      <h3 class="story-card-title">One home. One evening. Every object carries meaning.</h3>
+      <p class="story-card-body">We collapsed everything into a single home that evolves through frame transitions. A full narrator speaks to the user as Sarah throughout. Interactions are narrative-driven: putting a coat away, clearing a cold plate, reading an unopened message.</p>
+      <span class="story-card-tag">After</span>
+    </div>
+    <div class="story-card">
+      <span class="story-card-num">Why No Characters</span>
+      <h3 class="story-card-title">Uncanny valley breaks immersion before it begins.</h3>
+      <p class="story-card-body">Through our course and instructor feedback we learned that character models in VR risk creating an uncanny valley effect where almost human is not quite human enough, which pulls users out of the experience. We let voice, objects, and spatial audio do the work instead.</p>
+      <span class="story-card-tag">Design Decision</span>
+    </div>
+    <div class="story-card">
+      <span class="story-card-num">What Testing Changed</span>
+      <h3 class="story-card-title">Real input from a 911 Operator and active firefighters.</h3>
+      <p class="story-card-body">Our 911 Operator said the flashback would be giving them trauma too. Firefighters on Reddit confirmed the toll is accumulation over years, not one dramatic call. Every major design change traces back to a real person's real words.</p>
+      <span class="story-card-tag">User Research</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Video -->
+<section id="video" style="background:var(--cream);">
+  <div class="two-col">
+    <div>
+      <span class="section-tag">03 — Walkthrough</span>
+      <h2 class="section-title reveal">Watch the <em>prototype.</em></h2>
+    </div>
+    <p class="reveal" style="font-family:'DM Mono',monospace;font-size:11px;color:var(--grey);letter-spacing:.12em;max-width:300px;text-align:right;">Full experience walkthrough recorded in ShapesXR on Meta Quest 3</p>
+  </div>
+  <div class="video-wrap reveal">
+    <iframe src="https://www.youtube.com/embed/d1eI956xgYI" title="After the Shift VR Prototype Walkthrough" allow="accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Scenes -->
+<section id="scenes" style="background:var(--cream-mid);">
+  <span class="section-tag">04 — Key Scenes</span>
+  <div class="two-col">
+    <h2 class="section-title reveal">The interactions that <em>matter.</em></h2>
+    <p class="section-body reveal">Each interaction is not a task. It is a moment. Picking up a coat. Setting down a fork. Reading a message that was never answered. Click any scene to read more.</p>
+  </div>
+  <div class="scene-grid reveal">
+    <div class="scene-item" onclick="openModal(0)">
+      <img src="VR SCENE1.jpeg" alt="Eating alone">
+      <div class="scene-overlay">
+        <span class="scene-num">Scene 01</span>
+        <div class="scene-caption">Eating Alone</div>
+        <div class="scene-sub">Users immediately understood they were Sarah — the empty chair across the table made the whole evening feel personal.</div>
+        <div class="scene-open-hint">Click to read more →</div>
+      </div>
+    </div>
+    <div class="scene-item" onclick="openModal(1)">
+      <img src="VR SCENE2.jpeg" alt="Putting the dish away">
+      <div class="scene-overlay">
+        <span class="scene-num">Scene 02</span>
+        <div class="scene-caption">Putting the Dish Away</div>
+        <div class="scene-sub">Testing showed this was the moment users stopped completing tasks and started feeling them — care and quiet resignation in one action.</div>
+        <div class="scene-open-hint">Click to read more →</div>
+      </div>
+    </div>
+    <div class="scene-item" onclick="openModal(2)">
+      <img src="VR SCENE3.jpeg" alt="The dropped coat">
+      <div class="scene-overlay">
+        <span class="scene-num">Scene 03</span>
+        <div class="scene-caption">Hanging Up the Coat</div>
+        <div class="scene-sub">The repeated fabric sound from the morning anchored the day as a cycle — users felt this was not one bad night but a pattern.</div>
+        <div class="scene-open-hint">Click to read more →</div>
+      </div>
+    </div>
+    <div class="scene-item" onclick="openModal(3)">
+      <img src="VR SCENE4.jpeg" alt="The unread message">
+      <div class="scene-overlay">
+        <span class="scene-num">Scene 04</span>
+        <div class="scene-caption">The Unread Message</div>
+        <div class="scene-sub">Seeing their own message unread made the story specific. Users stopped projecting and started inhabiting — this scene consistently created the strongest emotional response in testing.</div>
+        <div class="scene-open-hint">Click to read more →</div>
+      </div>
+    </div>
+    <div class="scene-item" onclick="openModal(4)">
+      <img src="VR SCENE5.jpeg" alt="The testimonial video">
+      <div class="scene-overlay">
+        <span class="scene-num">Scene 05</span>
+        <div class="scene-caption">The Testimonial</div>
+        <div class="scene-sub">Hearing a real voice name the experience gave users language for what they had just felt — and a moment to breathe before the final choice.</div>
+        <div class="scene-open-hint">Click to read more →</div>
+      </div>
+    </div>
+    <div class="scene-item" onclick="openModal(5)">
+      <img src="VR SCENE6.jpeg" alt="The three responses">
+      <div class="scene-overlay">
+        <span class="scene-num">Scene 06</span>
+        <div class="scene-caption">The Choice</div>
+        <div class="scene-sub">Turning empathy into a decision made the experience actionable — users left with something concrete to carry into their own relationships.</div>
+        <div class="scene-open-hint">Click to read more →</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Quiz Panel -->
+<div class="quiz-section" id="quiz">
+  <div class="quiz-header">
+    <span class="section-tag">Scene 06 — The Choice Explained</span>
+    <h2 class="section-title reveal">How would you <em>respond?</em></h2>
+    <p class="section-body reveal" style="margin-top:8px;">In the final scene, three response bubbles appear. The user selects what they believe is the most supportive first step. All three responses come from a place of care — none of them are wrong. But none of them will immediately fix what Operational Stress Injury builds up over years. What they can do is signal safety, reduce pressure, and create the conditions for healing over time.</p>
+  </div>
+  <div class="quiz-cards">
+    <div class="quiz-card first-step reveal">
+      <div>
+        <span class="quiz-card-letter">Panel A</span>
+        <div class="quiz-badge">Best First Step</div>
+      </div>
+      <p class="quiz-card-response">"I'm here, you don't have to carry this alone."</p>
+      <p class="quiz-card-explanation">Presence without pressure or expectation. COPE identifies this as the strongest opening move — it communicates that you are not going anywhere, without asking anything in return. It does not promise a fix. It offers a foundation.</p>
+    </div>
+    <div class="quiz-card reveal">
+      <div>
+        <span class="quiz-card-letter">Panel B</span>
+      </div>
+      <p class="quiz-card-response">"Whenever you're ready to talk, I'm here."</p>
+      <p class="quiz-card-explanation">Caring and patient, but naming the act of talking can introduce subtle pressure. It frames the goal as a conversation rather than just being together. Good language for a later moment — once the person already feels safe enough to consider talking.</p>
+    </div>
+    <div class="quiz-card reveal">
+      <div>
+        <span class="quiz-card-letter">Panel C</span>
+      </div>
+      <p class="quiz-card-response">"What if we looked into some support together? I'll come with you."</p>
+      <p class="quiz-card-explanation">A meaningful and concrete offer — and ultimately an important one. But it arrives before presence has been established. Moving to solutions too early can feel like the other person wants to resolve the discomfort rather than sit with it. This response belongs a step or two later.</p>
+    </div>
+  </div>
+  <p class="quiz-note reveal">None of these responses will undo an Operational Stress Injury overnight. OSI develops over years of accumulated exposure — and recovery follows a similar pace. What a partner can offer is consistency, patience, and the willingness to stay present without needing to fix anything immediately. That is what the Spousal Resiliency Program and COPE are built around.</p>
+</div>
+
+<div class="divider"></div>
+
+<!-- Prototype -->
+<section id="prototype" style="background:var(--cream);">
+  <div class="two-col">
+    <div>
+      <span class="section-tag">05 — Live Prototype</span>
+      <h2 class="section-title reveal">Experience it <em>yourself.</em></h2>
+    </div>
+    <div>
+      <p class="section-body reveal">The full ShapesXR prototype embedded below. For the best experience open on a Meta Quest 3 using the space code. You can also explore it here in your browser.</p>
+      <p class="reveal" style="margin-top:16px;font-family:'DM Mono',monospace;font-size:11px;color:var(--red);letter-spacing:.12em;">ShapesXR Code: S768 5D98</p>
+    </div>
+  </div>
+
+  <!-- Full space embed -->
+  <div class="reveal" style="margin-top:0;">
+    <p class="prototype-note" style="margin-bottom:12px;">Full ShapesXR Space — all 6 frames</p>
+    <iframe class="prototype-frame" src="https://shapes.app/space/view/1262bba2-954a-4c60-9911-d9e4cf332486/s7685d98" title="After the Shift ShapesXR Prototype — Full Space" allowfullscreen></iframe>
+    <p class="prototype-note">Best viewed on Meta Quest 3 with code S768 5D98 &nbsp;|&nbsp; Browser preview available above</p>
+  </div>
+
+  <!-- Scene embed pair -->
+  <div class="embed-pair reveal" style="margin-top:48px;">
+    <div class="embed-block">
+      <p class="embed-label">Frame 4, Viewpoint 3 — Sarah Eats Alone</p>
+      <iframe src="https://shapes.app/space/share/pw6vbghwoggnkab-3gzox7wgrcmgjyteddi9dzx59xto/2/2" title="After the Shift — Eating Alone Scene" allowfullscreen></iframe>
+      <p class="prototype-note" style="margin-top:10px;">The dinner table. Two plates. One untouched.</p>
+    </div>
+    <div class="embed-block">
+      <p class="embed-label">03 — Walkthrough Video</p>
+      <div style="position:relative;width:100%;height:480px;background:var(--cream-dark);overflow:hidden;border:1px solid var(--border);">
+        <iframe style="position:absolute;inset:0;width:100%;height:100%;border:none;" src="https://www.youtube.com/embed/d1eI956xgYI" title="After the Shift VR Prototype Walkthrough" allow="accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <p class="prototype-note" style="margin-top:10px;">Full experience walkthrough — Meta Quest 3</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WWC Connection -->
+<section id="wwc" style="background:var(--cream-mid);">
+  <span class="section-tag">06 — WWC Connection</span>
+  <div class="two-col">
+    <h2 class="section-title reveal">Built around <em>real programs.</em></h2>
+    <p class="section-body reveal">Every scene connects to a specific Wounded Warriors Canada program. This is not just an awareness campaign. It tells families where to go next.</p>
+  </div>
+  <div class="wwc-grid">
+    <div class="wwc-card reveal">
+      <div class="wwc-card-icon">🤝</div>
+      <h3 class="wwc-card-title">Spousal Resiliency Program</h3>
+      <p class="wwc-card-body">Named through the dinner plate interaction. The narrator says directly: you are carrying something too, and you deserve support just as much as he does.</p>
+    </div>
+    <div class="wwc-card reveal">
+      <div class="wwc-card-icon">💬</div>
+      <h3 class="wwc-card-title">COPE</h3>
+      <p class="wwc-card-body">Couples Overcoming PTSD Every Day. Connected to the choice panels. Presence over fixing. Staying without requiring explanation. The correct response reflects what COPE teaches.</p>
+    </div>
+    <div class="wwc-card reveal">
+      <div class="wwc-card-icon">🏠</div>
+      <h3 class="wwc-card-title">Surviving Family Program</h3>
+      <p class="wwc-card-body">Named in the outro alongside the other programs. All three are displayed before woundedwarriors.ca appears on screen so every user leaves with somewhere to go.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Process -->
+<section id="process" style="background:var(--cream);">
+  <span class="section-tag">07 — Design Process</span>
+  <div class="two-col">
+    <h2 class="section-title reveal">How we <em>designed it.</em></h2>
+    <p class="section-body reveal">Every decision came from someone telling us something real. The process was iterative, research-driven, and when our client went quiet, resourceful.</p>
+  </div>
+  <div class="process-list">
+    <div class="process-item reveal">
+      <div class="process-num">01</div>
+      <div><span class="process-label">Client Brief</span><h3 class="process-title">Wounded Warriors Canada</h3></div>
+      <p class="process-body">Wounded Warriors Canada set three clear priorities from the start: no graphic incident depiction, no risk of retraumatizing families, and WWC's programs integrated meaningfully throughout. Those three principles became the filter for every design decision that followed.</p>
+    </div>
+    <div class="process-item reveal">
+      <div class="process-num">02</div>
+      <div><span class="process-label">First Responder Research</span><h3 class="process-title">911 Operator Interview and Reddit Outreach</h3></div>
+      <p class="process-body">After Waterloo Region Fire Department and Waterloo Regional Police Service did not respond to our outreach, we posted on r/Firefighting. The post reached over 3,800 views. A 911 Operator gave us a full structured interview. Two active firefighters from Reddit shaped how we framed James's behaviour throughout the evening scenes.</p>
+    </div>
+    <div class="process-item reveal">
+      <div class="process-num">03</div>
+      <div><span class="process-label">User Testing</span><h3 class="process-title">Five Participants, Think-Aloud Method</h3></div>
+      <p class="process-body">The morning scene, the phone interaction, the choice panel language, and the removal of the flashback all came directly from participant feedback. The 911 Operator said the flashback would be giving them trauma too. That was enough.</p>
+    </div>
+    <div class="process-item reveal">
+      <div class="process-num">04</div>
+      <div><span class="process-label">Spatial Audio Strategy</span><h3 class="process-title">Voice and Sound Over Characters</h3></div>
+      <p class="process-body">We chose not to use character models to avoid uncanny valley effects, a principle from our course and reinforced by instructor feedback. Sarah's footsteps from the hallway, James's voice from the armchair, the door closing from the left. Spatial audio creates presence where visible characters would have broken it.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Team -->
+<section id="team" style="background:var(--cream-mid);">
+  <span class="section-tag">08 — The Team</span>
+  <h2 class="section-title reveal">Group <em>7.</em></h2>
+  <p class="section-body reveal" style="margin-bottom:0;">UX306 Design of Immersive Spaces, Wilfrid Laurier University. Supervised by Dr. John Munoz. Client: Wounded Warriors Canada.</p>
+  <div class="team-grid">
+    <div class="team-card reveal">
+      <div class="team-initial">F</div>
+      <div class="team-name">Fahad Sheikh</div>
+      <div class="team-role">ShapesXR Lead &amp; Web</div>
+      <p class="team-desc">Built and iterated the full ShapesXR prototype across both versions. Responsible for spatial layout, frame transitions, object interactions, and this portfolio site.</p>
+    </div>
+    <div class="team-card reveal">
+      <div class="team-initial">I</div>
+      <div class="team-name">Ilhan Benli</div>
+      <div class="team-role">Narrative &amp; Scripting</div>
+      <p class="team-desc">Wrote Sarah's narrator voice and developed the scene-by-scene narrative arc. Ensured every interaction carried emotional meaning consistent with what first responder families described.</p>
+    </div>
+    <div class="team-card reveal">
+      <div class="team-initial">P</div>
+      <div class="team-name">Prableen Nijjar</div>
+      <div class="team-role">Research &amp; WWC Integration</div>
+      <p class="team-desc">Led the research process including the 911 Operator interview and Reddit outreach. Mapped each scene to specific WWC programs and ensured the experience reflected what real families told us.</p>
+    </div>
+    <div class="team-card reveal">
+      <div class="team-initial">S</div>
+      <div class="team-name">Shaina Gardose</div>
+      <div class="team-role">User Testing &amp; Visual Design</div>
+      <p class="team-desc">Planned and ran all five user testing sessions using the think-aloud method. Synthesized participant feedback into the key design changes that defined V2, and contributed to the visual and spatial aesthetic.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h2 class="footer-title">After<br><em>the Shift.</em></h2>
+      <p class="footer-body">A VR experience for Wounded Warriors Canada. Built in ShapesXR. For first responder families, by students who listened to them.</p>
+      <a href="https://woundedwarriors.ca" target="_blank" class="footer-link">Visit Wounded Warriors Canada</a>
+    </div>
+    <div class="footer-meta">
+      <div><div class="footer-code" style="margin-bottom:8px;">ShapesXR Code</div><div style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--red);">S768 5D98</div></div>
+      <div><div class="footer-code" style="margin-bottom:8px;">Course</div><div style="font-size:14px;color:rgba(255,255,255,.6);">UX306 Design of Immersive Spaces</div><div style="font-size:14px;color:rgba(255,255,255,.35);margin-top:4px;">Wilfrid Laurier University 2026</div></div>
+      <div><div class="footer-code" style="margin-bottom:8px;">Supervisor</div><div style="font-size:14px;color:rgba(255,255,255,.6);">Dr. John Munoz</div></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">2026 Group 7: Fahad Sheikh, Ilhan Benli, Prableen Nijjar, Shaina Gardose</span>
+    <span class="footer-copy">After the Shift — Wounded Warriors Canada</span>
+  </div>
+</footer>
+
+<script>
+/* ── Cursor ─────────────────────────────────────── */
+const cursor = document.getElementById('cursor');
+const ring   = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.transform = `translate(${mx - 4}px,${my - 4}px)`;
+});
+(function animRing() {
+  rx += (mx - rx - 16) * .12;
+  ry += (my - ry - 16) * .12;
+  ring.style.transform = `translate(${rx}px,${ry}px)`;
+  requestAnimationFrame(animRing);
+})();
+document.querySelectorAll('a,button,.scene-item,.story-card,.wwc-card,.team-card,.stat,.quiz-card').forEach(el => {
+  el.addEventListener('mouseenter', () => { ring.style.width='48px'; ring.style.height='48px'; ring.style.borderColor='rgba(192,57,43,.7)'; });
+  el.addEventListener('mouseleave', () => { ring.style.width='32px'; ring.style.height='32px'; ring.style.borderColor='rgba(192,57,43,.45)'; });
+});
+
+/* ── Scroll reveal ──────────────────────────────── */
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 75);
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: .1, rootMargin: '0px 0px -36px 0px' });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+/* ── Scene modal data ───────────────────────────── */
+const scenes = [
+  {
+    src: 'VR SCENE1.jpeg',
+    num: 'Scene 01',
+    title: 'Eating Alone',
+    desc: 'User picks up a fork at a table set for two, James\'s plate untouched, then sets it back down. The sound of one clink and then silence does the emotional work. The narrator names the Spousal Resiliency Program immediately after. Two plates were set at six. He wasn\'t hungry when he got home.',
+    program: 'Spousal Resiliency Program',
+    quote: 'You made this at six. Set two plates. Waited until nine.'
+  },
+  {
+    src: 'VR SCENE2.jpeg',
+    num: 'Scene 02',
+    title: 'Putting the Dish Away',
+    desc: 'User carries the cold untouched plate to the kitchen. The act holds both care and resignation at the same time — putting away the evidence of the meal, of the waiting, of the unanswered question of how he is doing. The speech bubble confirms what the action already says.',
+    program: 'Spousal Resiliency Program',
+    quote: 'Operational Stress Injury affects the whole family, not just the first responder.'
+  },
+  {
+    src: 'VR SCENE3.jpeg',
+    num: 'Scene 03',
+    title: 'Hanging Up the Coat',
+    desc: 'James\'s coat is on the floor. He was too tired to hang it up. The user picks it up — the same fabric sound plays as it did in the morning when the coat was taken down. The matching sound is intentional. The act of hanging it back is care without recognition, routine as love.',
+    program: 'OSI Awareness',
+    quote: 'This morning it was on the hook. Tonight it\'s on the floor.'
+  },
+  {
+    src: 'VR SCENE4.jpeg',
+    num: 'Scene 04',
+    title: 'The Unread Message',
+    desc: 'User picks up Sarah\'s phone and sees their own message sitting unread. James texted late at 3:40. She replied. Then asked if everything was good at 6:55. He never replied. From a 911 Operator: even texting back after a shift feels like too much. The depletion is real, and it is not personal.',
+    program: 'Spousal Resiliency Program',
+    quote: 'That\'s not distance chosen deliberately. That\'s depletion.'
+  },
+  {
+    src: 'VR SCENE5.jpeg',
+    num: 'Scene 05',
+    title: 'The Testimonial',
+    desc: 'A floating video panel appears. A first responder and their partner speak directly to camera about the Spousal Resiliency Program. The user aims at the play button and watches. This is the only moment in the experience where the user is not asked to do anything. The passivity is deliberate — sometimes you just need to hear it from someone who has lived it.',
+    program: 'Spousal Resiliency Program',
+    quote: 'It\'s not about showing trauma. It\'s about understanding it.'
+  },
+  {
+    src: 'VR SCENE6.jpeg',
+    num: 'Scene 06',
+    title: 'The Choice',
+    desc: 'Three response bubbles appear. The user clicks what they believe is the most supportive first step. The correct answer is then revealed with an explanation. From a 911 Operator: the best responses are presence without pressure — I\'m here, and talk when you\'re ready. COPE teaches that showing up matters more than having the right words.',
+    program: 'COPE + Spousal Resiliency',
+    quote: 'It\'s more about presence than fixing anything.'
+  }
+];
+
+function openModal(i) {
+  const s = scenes[i];
+  document.getElementById('modalImg').src    = s.src;
+  document.getElementById('modalImg').alt    = s.title;
+  document.getElementById('modalSceneNum').textContent = s.num;
+  document.getElementById('modalTitle').textContent    = s.title;
+  document.getElementById('modalDesc').textContent     = s.desc;
+  document.getElementById('modalProgram').textContent  = s.program;
+  document.getElementById('modalQuote').textContent    = '\u201C' + s.quote + '\u201D';
+  document.getElementById('modalBackdrop').classList.add('active');
+  document.getElementById('modalPanel').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalBackdrop').classList.remove('active');
+  document.getElementById('modalPanel').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>

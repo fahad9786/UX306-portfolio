@@ -125,7 +125,9 @@ section{padding:120px 60px;position:relative;}
 .team-initial{width:56px;height:56px;background:var(--red);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--white);margin-bottom:24px;}
 .team-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:6px;color:var(--dark);}
 .team-role{font-family:'DM Mono',monospace;font-size:10px;color:var(--grey);letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px;}
-.team-desc{font-size:13px;line-height:1.7;color:var(--grey-light);}
+.team-bullets{list-style:none;padding:0;display:flex;flex-direction:column;gap:7px;}
+.team-bullets li{font-size:13px;line-height:1.6;color:var(--grey-light);padding-left:14px;position:relative;}
+.team-bullets li::before{content:'—';position:absolute;left:0;color:var(--red);font-size:11px;top:1px;}
 
 /* ── Quiz Panel ──────────────────────── */
 .quiz-section{padding:100px 60px;background:var(--cream-mid);}
@@ -323,7 +325,7 @@ footer{background:var(--dark);padding:80px 60px;}
     <p class="reveal" style="font-family:'DM Mono',monospace;font-size:11px;color:var(--grey);letter-spacing:.12em;max-width:300px;text-align:right;">Full experience walkthrough recorded in ShapesXR on Meta Quest 3</p>
   </div>
   <div class="video-wrap reveal">
-    <iframe src="https://www.youtube.com/embed/d1eI956xgYI" title="After the Shift VR Prototype Walkthrough" allow="accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/d1eI956xgYI?si=BHGzISNhASZ43UVx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
   </div>
 </section>
 
@@ -450,20 +452,11 @@ footer{background:var(--dark);padding:80px 60px;}
     <p class="prototype-note">Best viewed on Meta Quest 3 with code S768 5D98 &nbsp;|&nbsp; Browser preview available above</p>
   </div>
 
-  <!-- Scene embed pair -->
-  <div class="embed-pair reveal" style="margin-top:48px;">
-    <div class="embed-block">
-      <p class="embed-label">Frame 4, Viewpoint 3 — Sarah Eats Alone</p>
-      <iframe src="https://shapes.app/space/share/pw6vbghwoggnkab-3gzox7wgrcmgjyteddi9dzx59xto/2/2" title="After the Shift — Eating Alone Scene" allowfullscreen></iframe>
-      <p class="prototype-note" style="margin-top:10px;">The dinner table. Two plates. One untouched.</p>
-    </div>
-    <div class="embed-block">
-      <p class="embed-label">03 — Walkthrough Video</p>
-      <div style="position:relative;width:100%;height:480px;background:var(--cream-dark);overflow:hidden;border:1px solid var(--border);">
-        <iframe style="position:absolute;inset:0;width:100%;height:100%;border:none;" src="https://www.youtube.com/embed/d1eI956xgYI" title="After the Shift VR Prototype Walkthrough" allow="accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
-      </div>
-      <p class="prototype-note" style="margin-top:10px;">Full experience walkthrough — Meta Quest 3</p>
-    </div>
+  <!-- Scene-specific ShapesXR embed -->
+  <div class="reveal" style="margin-top:48px;">
+    <p class="prototype-note" style="margin-bottom:12px;">Scene Preview — Frame 1, Viewpoint 3</p>
+    <iframe src="https://shapes.app/space/share/pw6vbghwoggnkab-3gzox7wgrcmgjyteddi9dzx59xto/1/3" title="wwc g7" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="fullscreen;clipboard-read; clipboard-write" style="width:100%;height:480px;border:none;background:var(--cream-mid);"></iframe>
+    <p class="prototype-note" style="margin-top:10px;">Navigate inside the space using your mouse or touch — best on Meta Quest 3</p>
   </div>
 </section>
 
@@ -540,25 +533,37 @@ footer{background:var(--dark);padding:80px 60px;}
       <div class="team-initial">F</div>
       <div class="team-name">Fahad Sheikh</div>
       <div class="team-role">ShapesXR Lead &amp; Web</div>
-      <p class="team-desc">Built and iterated the full ShapesXR prototype across both versions. Responsible for spatial layout, frame transitions, object interactions, and this portfolio site.</p>
+      <ul class="team-bullets">
+        <li>Built and iterated the full ShapesXR prototype across V1 and V2</li>
+        <li>Designed spatial layout, frame transitions, and all object interactions</li>
+        <li>Developed this portfolio site</li>
+      </ul>
     </div>
     <div class="team-card reveal">
       <div class="team-initial">I</div>
       <div class="team-name">Ilhan Benli</div>
-      <div class="team-role">Narrative &amp; Scripting</div>
-      <p class="team-desc">Wrote Sarah's narrator voice and developed the scene-by-scene narrative arc. Ensured every interaction carried emotional meaning consistent with what first responder families described.</p>
+      <div class="team-role">Narrative Support</div>
+      <ul class="team-bullets">
+        <li>Contributed to early script drafts and scene descriptions</li>
+      </ul>
     </div>
     <div class="team-card reveal">
       <div class="team-initial">P</div>
       <div class="team-name">Prableen Nijjar</div>
       <div class="team-role">Research &amp; WWC Integration</div>
-      <p class="team-desc">Led the research process including the 911 Operator interview and Reddit outreach. Mapped each scene to specific WWC programs and ensured the experience reflected what real families told us.</p>
+      <ul class="team-bullets">
+        <li>Led the 911 Operator interview and Reddit first responder outreach</li>
+        <li>Mapped every scene to a specific WWC program</li>
+      </ul>
     </div>
     <div class="team-card reveal">
       <div class="team-initial">S</div>
       <div class="team-name">Shaina Gardose</div>
       <div class="team-role">User Testing &amp; Visual Design</div>
-      <p class="team-desc">Planned and ran all five user testing sessions using the think-aloud method. Synthesized participant feedback into the key design changes that defined V2, and contributed to the visual and spatial aesthetic.</p>
+      <ul class="team-bullets">
+        <li>Planned and ran all five think-aloud user testing sessions</li>
+        <li>Synthesized feedback into the design changes that defined V2</li>
+      </ul>
     </div>
   </div>
 </section>

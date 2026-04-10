@@ -173,6 +173,36 @@ footer{background:var(--dark);padding:80px 60px;}
 .footer-bottom{margin-top:64px;padding-top:28px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center;}
 .footer-copy{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,.3);letter-spacing:.1em;}
 
+/* ── Interlude Banners ───────────────── */
+.interlude{padding:52px 60px;display:flex;align-items:center;justify-content:center;text-align:center;flex-direction:column;}
+.interlude.dark{background:var(--dark);}
+.interlude.red{background:var(--red);}
+.interlude.warm{background:var(--cream-dark);}
+.interlude-quote{font-family:'Playfair Display',serif;font-size:clamp(18px,2.4vw,30px);font-style:italic;color:var(--white);max-width:760px;line-height:1.5;}
+.interlude.warm .interlude-quote{color:var(--dark);}
+.interlude-label{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.18em;text-transform:uppercase;margin-top:16px;}
+.interlude.warm .interlude-label{color:var(--grey);}
+
+/* ── Big ShapesXR Code ───────────────── */
+.shapes-code-block{text-align:center;padding:40px 60px 0;}
+.shapes-code-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--grey);letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;display:block;}
+.shapes-code-big{font-family:'Playfair Display',serif;font-size:clamp(64px,10vw,128px);font-weight:900;color:var(--red);line-height:1;letter-spacing:.04em;}
+.shapes-code-sub{font-family:'DM Mono',monospace;font-size:12px;color:var(--grey);letter-spacing:.14em;margin-top:16px;}
+
+/* ── WWC CTA ─────────────────────────── */
+.wwc-cta{background:var(--dark);padding:120px 60px;text-align:center;}
+.wwc-cta-pre{font-family:'DM Mono',monospace;font-size:11px;color:var(--red);letter-spacing:.22em;text-transform:uppercase;margin-bottom:28px;display:block;}
+.wwc-cta-title{font-family:'Playfair Display',serif;font-size:clamp(40px,6vw,80px);font-weight:900;color:var(--white);line-height:1.05;margin-bottom:28px;}
+.wwc-cta-title em{color:var(--red);font-style:italic;}
+.wwc-cta-body{font-size:17px;line-height:1.8;color:rgba(255,255,255,.5);max-width:540px;margin:0 auto 48px;}
+.wwc-cta-btn{display:inline-flex;align-items:center;gap:12px;background:var(--red);color:var(--white);text-decoration:none;font-family:'DM Mono',monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;padding:20px 44px;transition:background .25s;}
+.wwc-cta-btn:hover{background:var(--red-dark);}
+.thanks-strip{margin-top:80px;padding-top:56px;border-top:1px solid rgba(255,255,255,.07);display:flex;justify-content:center;gap:80px;flex-wrap:wrap;}
+.thanks-card{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.thanks-badge{font-family:'DM Mono',monospace;font-size:9px;color:var(--red);letter-spacing:.18em;text-transform:uppercase;margin-bottom:4px;}
+.thanks-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--white);}
+.thanks-title{font-size:13px;color:rgba(255,255,255,.4);text-align:center;max-width:200px;line-height:1.5;}
+
 /* ── Animations ──────────────────────── */
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .75s ease,transform .75s ease;}
@@ -194,6 +224,10 @@ footer{background:var(--dark);padding:80px 60px;}
   .prototype-frame{height:360px;}
   .modal-panel{width:100vw;}
   .quiz-section{padding:80px 24px;}
+  .interlude{padding:40px 24px;}
+  .wwc-cta{padding:80px 24px;}
+  .thanks-strip{gap:40px;}
+  .shapes-code-block{padding:32px 24px 0;}
 }
 </style>
 </head>
@@ -313,7 +347,10 @@ footer{background:var(--dark);padding:80px 60px;}
   </div>
 </section>
 
-<div class="divider"></div>
+<div class="interlude dark">
+  <p class="interlude-quote">"We chose not to show the job. We show what it leaves behind."</p>
+  <span class="interlude-label">After the Shift, Group 7</span>
+</div>
 
 <!-- Video -->
 <section id="video" style="background:var(--cream);">
@@ -430,7 +467,10 @@ footer{background:var(--dark);padding:80px 60px;}
   <p class="quiz-note reveal">None of these responses will undo an Operational Stress Injury overnight. OSI develops over years of accumulated exposure, and recovery follows a similar pace. What a partner can offer is consistency, patience, and the willingness to stay present without needing to fix anything immediately. That is what the Spousal Resiliency Program and COPE are built around.</p>
 </div>
 
-<div class="divider"></div>
+<div class="interlude warm">
+  <p class="interlude-quote">Every object in the experience is a stand-in for something that cannot be said out loud.</p>
+  <span class="interlude-label">Narrative Design, After the Shift</span>
+</div>
 
 <!-- Prototype -->
 <section id="prototype" style="background:var(--cream);">
@@ -440,23 +480,22 @@ footer{background:var(--dark);padding:80px 60px;}
       <h2 class="section-title reveal">Experience it <em>yourself.</em></h2>
     </div>
     <div>
-      <p class="section-body reveal">The full ShapesXR prototype embedded below. For the best experience open on a Meta Quest 3 using the space code. You can also explore it here in your browser.</p>
-      <p class="reveal" style="margin-top:16px;font-family:'DM Mono',monospace;font-size:11px;color:var(--red);letter-spacing:.12em;">ShapesXR Code: S768 5D98</p>
+      <p class="section-body reveal">A scene from the ShapesXR prototype embedded below. For the full experience open on a Meta Quest 3 using the space code. You can also explore it here in your browser.</p>
     </div>
   </div>
 
-  <!-- Full space embed -->
+  <!-- Scene embed -->
   <div class="reveal" style="margin-top:0;">
-    <p class="prototype-note" style="margin-bottom:12px;">Full ShapesXR Space, all 6 frames</p>
-    <iframe class="prototype-frame" src="https://shapes.app/space/view/1262bba2-954a-4c60-9911-d9e4cf332486/s7685d98" title="After the Shift ShapesXR Prototype — Full Space" allowfullscreen></iframe>
-    <p class="prototype-note">Best viewed on Meta Quest 3 with code S768 5D98 &nbsp;|&nbsp; Browser preview available above</p>
+    <p class="prototype-note" style="margin-bottom:12px;">Scene Preview — Frame 1, Viewpoint 3</p>
+    <iframe src="https://shapes.app/space/share/pw6vbghwoggnkab-3gzox7wgrcmgjyteddi9dzx59xto/1/3" title="wwc g7" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="fullscreen;clipboard-read; clipboard-write" style="width:100%;height:520px;border:none;background:var(--cream-mid);"></iframe>
+    <p class="prototype-note" style="margin-top:10px;">Navigate inside the space using your mouse or touch. Best on Meta Quest 3.</p>
   </div>
 
-  <!-- Scene-specific ShapesXR embed -->
-  <div class="reveal" style="margin-top:48px;">
-    <p class="prototype-note" style="margin-bottom:12px;">Scene Preview — Frame 1, Viewpoint 3</p>
-    <iframe src="https://shapes.app/space/share/pw6vbghwoggnkab-3gzox7wgrcmgjyteddi9dzx59xto/1/3" title="wwc g7" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="fullscreen;clipboard-read; clipboard-write" style="width:100%;height:480px;border:none;background:var(--cream-mid);"></iframe>
-    <p class="prototype-note" style="margin-top:10px;">Navigate inside the space using your mouse or touch. Best on Meta Quest 3.</p>
+  <!-- Big ShapesXR code display -->
+  <div class="shapes-code-block reveal">
+    <span class="shapes-code-label">Open on Meta Quest 3</span>
+    <div class="shapes-code-big">S768 5D98</div>
+    <p class="shapes-code-sub">Enter this code in ShapesXR to load the full After the Shift experience</p>
   </div>
 </section>
 
@@ -488,7 +527,10 @@ footer{background:var(--dark);padding:80px 60px;}
   </div>
 </section>
 
-<div class="divider"></div>
+<div class="interlude red">
+  <p class="interlude-quote">3,800 Reddit views. One 911 Operator. Two firefighters. Every design decision had a name behind it.</p>
+  <span class="interlude-label">Research Process, Group 7</span>
+</div>
 
 <!-- Process -->
 <section id="process" style="background:var(--cream);">
@@ -510,7 +552,7 @@ footer{background:var(--dark);padding:80px 60px;}
     </div>
     <div class="process-item reveal">
       <div class="process-num">03</div>
-      <div><span class="process-label">User Testing</span><h3 class="process-title">Five Participants, Think-Aloud Method</h3></div>
+      <div><span class="process-label">User Testing</span><h3 class="process-title">Five Participants, Think Aloud Method</h3></div>
       <p class="process-body">The morning scene, the phone interaction, the choice panel language, and the removal of the flashback all came directly from participant feedback. The 911 Operator said the flashback would be giving them trauma too. That was enough.</p>
     </div>
     <div class="process-item reveal">
@@ -568,7 +610,26 @@ footer{background:var(--dark);padding:80px 60px;}
   </div>
 </section>
 
-<div class="divider"></div>
+<!-- WWC CTA + Thank You -->
+<div class="wwc-cta">
+  <span class="wwc-cta-pre">If any of this felt familiar</span>
+  <h2 class="wwc-cta-title">You are not<br><em>carrying this alone.</em></h2>
+  <p class="wwc-cta-body">Wounded Warriors Canada offers free, confidential programs for first responders and their families across Canada. The Spousal Resiliency Program, COPE, and the Surviving Family Program are all available now.</p>
+  <a href="https://woundedwarriors.ca" target="_blank" class="wwc-cta-btn">Visit Wounded Warriors Canada</a>
+
+  <div class="thanks-strip">
+    <div class="thanks-card">
+      <span class="thanks-badge">Thank You</span>
+      <span class="thanks-name">Dr. John Munoz</span>
+      <span class="thanks-title">Course Supervisor, UX306 Design of Immersive Spaces, Wilfrid Laurier University</span>
+    </div>
+    <div class="thanks-card">
+      <span class="thanks-badge">Thank You</span>
+      <span class="thanks-name">Matthew Wocks</span>
+      <span class="thanks-title">Wounded Warriors Canada, for the brief, the trust, and the mission</span>
+    </div>
+  </div>
+</div>
 
 <!-- Footer -->
 <footer>
